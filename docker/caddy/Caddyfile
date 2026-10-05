@@ -1,0 +1,23 @@
+(proxy) {
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+
+    encode zstd gzip
+
+    @staticAssets {
+        path *.css *.js *.png *.jpg *.jpeg *.svg *.ico *.woff *.woff2 *.ttf *.gif *.webp *.avif
+    }
+
+    header @staticAssets Cache-Control "public, max-age=5184000, immutable"
+
+    header {
+        -Server
+    }
+
+    reverse_proxy {args[0]}
+}
+
+share.local.notcaste.com {
+    import proxy pingvin-share-x:3000
+}

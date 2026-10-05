@@ -1,0 +1,18 @@
+services:
+  pingvin-share-x:
+    container_name: pingvin-share-x
+    image: smp46/pingvin-share-x
+    restart: unless-stopped
+    environment:
+      - TRUST_PROXY=false
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - "${DATA_DIR}/pingvin-share/:/opt/app/backend/data:rw,z"
+      - "${DATA_DIR}/pingvin-share/images:/opt/app/frontend/public/img:rw,z"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
