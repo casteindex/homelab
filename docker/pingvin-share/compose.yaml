@@ -4,12 +4,12 @@ services:
     image: smp46/pingvin-share-x
     restart: unless-stopped
     environment:
-      - TRUST_PROXY=false
-      - PUID=${PUID}
-      - PGID=${PGID}
+      TRUST_PROXY: "true"
+      PUID: "${PUID}"
+      PGID: "${PGID}"
     volumes:
-      - "${DATA_DIR}/pingvin-share/:/opt/app/backend/data:rw,z"
-      - "${DATA_DIR}/pingvin-share/images:/opt/app/frontend/public/img:rw,z"
+      - "${DATA_DIR}/pingvin-share/data:/opt/app/backend/data"
+      - "${DATA_DIR}/pingvin-share/images:/opt/app/frontend/public/img"
     networks:
       - proxy
 

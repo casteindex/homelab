@@ -1,3 +1,4 @@
+# Snippet global de configuración
 (common) {
     encode zstd gzip
     header {
@@ -6,19 +7,28 @@
     }
 }
 
-*.lan.notcaste.com, *.ts.notcaste.com {
+# Snippet para definir aplicaciones
+# {args[0]} = subdominio de la app
+# {args[1]} = destino del reverse proxy
+(app_route) {
+    @{args[0]} host {args[0]}.lan.{$ROOT_DOMAIN} {args[0]}.ts.{$ROOT_DOMAIN}
+    handle @{args[0]} {
+        reverse_proxy {args[1]}
+    }
+}
+
+# Wildcard block para los subdominios
+*.lan.{$ROOT_DOMAIN}, *.ts.{$ROOT_DOMAIN} {
     import common
 
     tls {
-        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+        dns cloudflare {env.CF_API_TOKEN}
     }
 
-    @share host share.lan.notcaste.com share.ts.notcaste.com
-    handle @share {
-        reverse_proxy pingvin-share-x:3000
-    }
+    # Declaración de los servicios
+    import app_route share pingvin-share-x:3000
 
-    # cualquier otro nombre: cortar la conexión
+    # Cualquier otro subdominio no declarado se aborta
     handle {
         abort
     }
