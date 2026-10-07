@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="${1:-/srv/homelab}"
+ROOT="${1:-/home/notcaste/homelab}"
 DOCKER_DIR="$ROOT/docker"
 
 for f in "$DOCKER_DIR"/*/compose.y*ml "$DOCKER_DIR"/*/docker-compose.y*ml; do

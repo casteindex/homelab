@@ -1,23 +1,25 @@
-(proxy) {
+(common) {
+    encode zstd gzip
+    header {
+        -Server
+        Strict-Transport-Security "max-age=31536000"
+    }
+}
+
+*.lan.notcaste.com, *.ts.notcaste.com {
+    import common
+
     tls {
         dns cloudflare {env.CLOUDFLARE_API_TOKEN}
     }
 
-    encode zstd gzip
-
-    @staticAssets {
-        path *.css *.js *.png *.jpg *.jpeg *.svg *.ico *.woff *.woff2 *.ttf *.gif *.webp *.avif
+    @share host share.lan.notcaste.com share.ts.notcaste.com
+    handle @share {
+        reverse_proxy pingvin-share-x:3000
     }
 
-    header @staticAssets Cache-Control "public, max-age=5184000, immutable"
-
-    header {
-        -Server
+    # cualquier otro nombre: cortar la conexión
+    handle {
+        abort
     }
-
-    reverse_proxy {args[0]}
-}
-
-share.local.notcaste.com {
-    import proxy pingvin-share-x:3000
 }
