@@ -3,7 +3,7 @@
     encode zstd gzip
     header {
         -Server
-        Strict-Transport-Security "max-age=31536000"
+        Strict-Transport-Security "max-age=3600"
     }
 }
 
