@@ -26,6 +26,7 @@
     }
 
     # Declaración de los servicios
+    import app_route dockge dockge:5001
     import app_route jellyfin jellyfin:8096
     import app_route share pingvin-share-x:3000
 
