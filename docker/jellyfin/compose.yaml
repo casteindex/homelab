@@ -1,0 +1,21 @@
+services:
+  jellyfin:
+    container_name: jellyfin
+    image: jellyfin/jellyfin
+    restart: unless-stopped
+    user: "${PUID}:${PGID}"
+    environment:
+      TZ: "${TZ}"
+      JELLYFIN_PublishedServerUrl: "https://jellyfin.${ROOT_DOMAIN}"
+    volumes:
+      - "${CONFIG_DIR}/jellyfin:/config"
+      - "${CACHE_DIR}/jellyfin:/cache"
+      - "${MOVIES_DIR}:/media/movies:ro"
+      - "${TV_DIR}:/media/tv:ro"
+      - "${AUDIOBOOKS_DIR}:/media/audiobooks:ro"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

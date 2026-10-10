@@ -26,6 +26,7 @@
     }
 
     # Declaración de los servicios
+    import app_route jellyfin jellyfin:8096
     import app_route share pingvin-share-x:3000
 
     # Cualquier otro subdominio no declarado se aborta
